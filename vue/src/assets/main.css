@@ -1,0 +1,78 @@
+@import './base.css';
+
+.div {
+  height: 100vh;
+  overflow-x: hidden;
+  /* color: cyan; */
+  color: rgb(17, 184, 28);
+}
+
+.default_div {
+  padding: 1rem 2rem;
+}
+
+/* ::-webkit-scrollbar 系列属性
+属性
+::-webkit-scrollbar 整个滚动条。
+::-webkit-scrollbar-button 滚动条上的按钮（上下箭头）。
+::-webkit-scrollbar-thumb 滚动条上的滚动滑块。
+::-webkit-scrollbar-track 滚动条轨道。
+::-webkit-scrollbar-track-piece 滚动条没有滑块的轨道部分。
+::-webkit-scrollbar-corner 当同时有垂直滚动条和水平滚动条时交汇的部分。通常是浏览器窗口的右下角。
+::-webkit-resizer 出现在某些元素底角的可拖动调整大小的滑块。
+注意：该系列属性在没有优先设置 ::-webkit-scrollbar 时，其他滚动条相关样式不会生效（resize 除外）。
+常用：::-webkit-scrollbar、::-webkit-scrollbar-thumb、::-webkit-scrollbar-track（示例见“基本使用”） */
+::-webkit-scrollbar {
+  /* background-color: white; */
+  opacity: 0;
+  width: 0.7rem;
+}
+
+/* ::-webkit-scrollbar-button {
+  display: none;
+} */
+
+::-webkit-scrollbar-thumb {
+  background-color: greenyellow;
+  border-radius: 8px;
+}
+
+/* .input,
+button {
+  margin-top: 2rem;
+  width: 12rem !important;
+} */
+
+/* #app {
+  height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+} */
+
+/* a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+} */

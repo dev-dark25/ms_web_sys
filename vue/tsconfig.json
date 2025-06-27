@@ -1,0 +1,28 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "auto-imports.d.ts",
+    "components.d.ts"
+  ],
+  "compilerOptions": {
+    // "baseUrl": ".",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "types": [
+      "node"
+    ],
+    "allowJs": true // 允许script标签文件
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}
