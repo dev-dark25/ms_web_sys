@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的mapper-->
+<mapper namespace="com.example.web.mapper.primary.GameResourceMapper">
+
+    <select id="selectGameResource" resultType="java.util.HashMap">
+        select * from game_resource
+    </select>
+
+    <select id="selectList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select id, code, name from game_resource where type = #{type}
+        <if test="timeLimit != null and timeLimit != ''">
+            and time_limit = #{timeLimit}
+        </if>
+        <if test="up != null and up != ''">
+            and up = #{up}
+        </if>
+        <if test="star != null and star != ''">
+            and star = #{star}
+        </if>
+        <if test="timeLimitType != null and timeLimitType != ''">
+            and time_limit_type = #{timeLimitType}
+        </if>
+    </select>
+</mapper>

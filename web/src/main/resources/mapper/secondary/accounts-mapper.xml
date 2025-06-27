@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的mapper-->
+<mapper namespace="com.example.web.mapper.secondary.AccountsMapper">
+
+    <select id="selectAll" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+        select * from accounts
+    </select>
+
+    <select id="selectCountByLoggedin" resultType="java.lang.Integer">
+        select count(1) from accounts where loggedin = 1
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+        select * from accounts where id = #{id}
+    </select>
+</mapper>

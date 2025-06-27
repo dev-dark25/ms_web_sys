@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的mapper-->
+<mapper namespace="com.example.web.mapper.secondary.SkillsMapper">
+
+    <select id="selectAll" resultType="java.util.HashMap">
+        select * from skills
+    </select>
+
+    <!-- 多条件查询 -->
+<!--    <select id="selectAll" parameterType="java.util.HashMap" resultType="java.util.HashMap">-->
+<!--        select * from skills-->
+<!--        <where>-->
+<!--            <choose>-->
+<!--                <when test="characterId != null">-->
+<!--                    characterid = #{characterId}-->
+<!--                </when>-->
+<!--            </choose>-->
+<!--            <choose>-->
+<!--                <when test="skillId != null">-->
+<!--                    skillid = #{skillId}-->
+<!--                </when>-->
+<!--            </choose>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <!-- 可使用mybatis缓存 -->
+    <select id="selectCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(1) from skills where 1 = 1
+        <if test="characterId != null and characterId != ''">
+            and characterid = #{characterId}
+        </if>
+        <if test="skillId != null and skillId != ''">
+            and skillid = #{skillId}
+        </if>
+    </select>
+
+    <select id="selectByPagination" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from skills where 1 = 1
+        <if test="characterId != null">
+            and characterid = #{characterId}
+        </if>
+        limit #{currentIndex} , #{pageSize};
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+        select * from skills where id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的mapper-->
+<mapper namespace="com.example.web.mapper.primary.AccountInfoMapper">
+
+    <select id="selectAccountInfo" resultType="java.util.HashMap">
+        select * from account_info
+    </select>
+
+    <!--    <select id="selectById" parameterType="java.lang.Integer" resultType="java.util.HashMap">-->
+    <!--        select account_name as "accountName", up_current_count_5 as "UPCurrentCount5", up_character_5 as "UPCharacter5",-->
+    <!--        up_current_count_4 as "UPCurrentCount4", up_character_4 as "UPCharacter4" from account_info where 1 = 1-->
+    <!--        <if test="id != null and id != ''">-->
+    <!--            and id = #{id}-->
+    <!--        </if>-->
+    <!--    </select>-->
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+        select * from account_info where 1 = 1
+        <if test="id != null and id != ''">
+            and id = #{id}
+        </if>
+    </select>
+
+    <update id="updateById" parameterType="java.util.HashMap">
+        update account_info set up_current_count_5 = #{UPCurrentCount5}, up_character_5 = #{UPCharacter5},
+        up_current_count_4 =
+        #{UPCurrentCount4}, up_character_4 = #{UPCharacter4}, up_count = #{UPCount}, permanent_count =
+        #{permanentCount}, permanent_current_count_5 = #{permanentCurrentCount5}, permanent_current_count_4 =
+        #{permanentCurrentCount4}
+        where id = #{id}
+    </update>
+
+</mapper>

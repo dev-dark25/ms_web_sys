@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的mapper-->
+<mapper namespace="com.example.web.mapper.secondary.CharactersMapper">
+
+    <select id="selectAll" resultType="java.util.HashMap">
+        select * from characters
+    </select>
+
+    <!-- 可使用mybatis缓存 -->
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1) from characters;
+    </select>
+
+    <select id="selectByPagination" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from characters limit #{currentIndex} , #{pageSize};
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+        select * from characters where id = #{id}
+    </select>
+
+<!--    <resultMap id="characters" type="java.util.HashMap">-->
+<!--        <result column="id"/>-->
+<!--        <result column="accountid"/>-->
+<!--        <result column="name"/>-->
+<!--        <result column="level"/>-->
+<!--        <result column="lastLogoutTime"/>-->
+<!--        <result column="lastExpGainTime"/>-->
+<!--    </resultMap>-->
+<!--    <resultMap id="count" type="java.lang.Integer">-->
+<!--        <result column="total"/>-->
+<!--    </resultMap>-->
+<!--    <select id="selectByPagination" parameterType="java.util.HashMap" resultMap="characters,count">-->
+<!--        select * from characters limit #{currentIndex} , #{pageSize};-->
+<!--        select FOUND_ROWS() as total;-->
+<!--    </select>-->
+
+</mapper>

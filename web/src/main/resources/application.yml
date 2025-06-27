@@ -1,0 +1,89 @@
+#properties 优先级高于 yml
+
+#注意事项：冒号后需要加空格；缩进只能用空格，不能使用TAB
+
+server:
+  servlet:
+    context-path: /web
+  port: 8081
+
+#激活对应的环境配置
+spring:
+  application:
+    name: web
+  profiles:
+    active: dev
+#  cloud:
+#    nacos:
+#      config:
+#        server-addr: 192.168.0.0:8848,192.168.0.0:8849,192.168.0.0:8850
+#  config:
+#    import:
+#      - nacos:${spring.application.name}.yml
+
+#  单数据源配置
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml
+##  type-aliases-package: com.example.web.entity   可选，配置数据库实体包路径
+
+logback:
+  file:
+    path: logs
+
+---   #三短横线相当于定义不同环境的application-{profile}.yml配置，可减少yml文件数量
+spring:
+  config:
+    activate:
+      on-profile: dev
+#  单数据源配置
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://192.168.0.0:5432/postgres
+#    username: postgres
+#    password: postgres
+
+#  多数据源配置
+  datasource:
+    primary:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://192.168.0.0:5432/postgres
+      username: postgres
+      password: postgres
+    secondary:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://192.168.0.0:3306/heavenms
+      username: root
+      password: 123456
+
+project:
+  name: project-name-dev
+project1:
+  name: project1-name-dev
+project2:
+  name: project2-name-dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: stg
+
+project:
+  name: project-name-stg
+project1:
+  name: project1-name-stg
+project2:
+  name: project2-name-stg
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+project:
+  name: project-name-prod
+project1:
+  name: project1-name-prod
+project2:
+  name: project2-name-prod
