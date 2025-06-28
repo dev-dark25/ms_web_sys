@@ -9,3 +9,5 @@ vue3项目：vue
 3：创建postgres数据库，导入postgres目录脚本
 
 4：修改web项目yml文件mysql与postgres数据库连接配置
+
+5：项目分别运行成功后，进入首页config菜单，修改sqlite数据库配置
