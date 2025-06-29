@@ -14,4 +14,4 @@ vue3项目：vue
 
 6：点击MapleStory目录Index菜单，点击Start启动服务端
 
-7：客户端程序：https://pan.baidu.com/s/1UaTSAardblYnpiat5y_eSA
+7：客户端程序：https://pan.baidu.com/s/1BN5uaF8p0TjMGk9BHSXDZg
