@@ -1,4 +1,4 @@
-scripts.7z解压至scripts目录
+scripts.7z解压至/heaven-ms-spring-boot/scripts/目录
 
 wz.7z解压至/heaven-ms-spring-boot/wz/目录
 
