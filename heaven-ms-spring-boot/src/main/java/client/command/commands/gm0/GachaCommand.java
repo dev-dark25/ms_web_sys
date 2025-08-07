@@ -1,0 +1,66 @@
+/*
+    This file is part of the HeavenMS MapleStory Server, commands OdinMS-based
+    Copyleft (L) 2016 - 2019 RonanLana
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation version 3 as published by
+    the Free Software Foundation. You may not use, modify or distribute
+    this program under any other version of the GNU Affero General Public
+    License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/*
+   @Author: Arthur L - Refactored command content into modules
+*/
+package client.command.commands.gm0;
+
+import client.command.Command;
+import client.MapleClient;
+import server.MapleItemInformationProvider;
+import server.gachapon.MapleGachapon;
+
+public class GachaCommand extends Command {
+    {
+        setDescription("查询扭蛋机部分奖励列表");
+    }
+
+    @Override
+    public void execute(MapleClient c, String[] params) {
+        MapleGachapon.Gachapon gacha = null;
+        String search = c.getPlayer().getLastCommandMessage();
+        String gachaName = "";
+        String [] names = {"Henesys", "Ellinia", "Perion", "Kerning City", "Sleepywood", "Mushroom Shrine", "Showa Spa Male", "Showa Spa Female", "New Leaf City", "Nautilus Harbor"};
+        int [] ids = {9100100, 9100101, 9100102, 9100103, 9100104, 9100105, 9100106, 9100107, 9100109, 9100117};
+        for (int i = 0; i < names.length; i++){
+            if (search.equalsIgnoreCase(names[i])){
+                gachaName = names[i];
+                gacha = MapleGachapon.Gachapon.getByNpcId(ids[i]);
+            }
+        }
+        if (gacha == null){
+            c.getPlayer().yellowMessage("请使用 @gacha <name> 其中的名字对应以下之一:");
+            for (String name : names){
+                c.getPlayer().yellowMessage(name);
+            }
+            return;
+        }
+        StringBuilder talkStr = new StringBuilder("#b" + gachaName + "#k 扭蛋机包含以下物品.\r\n\r\n");
+        for (int i = 0; i < 2; i++){
+            for (int id : gacha.getItems(i)){
+                talkStr.append("-").append(MapleItemInformationProvider.getInstance().getName(id)).append("\r\n");
+            }
+        }
+        talkStr.append("\r\n请记住，所有扭蛋机都包含的物品没有在此处列出。.");
+        
+        c.getAbstractPlayerInteraction().npcTalk(9010000, talkStr.toString());
+    }
+}
