@@ -57,9 +57,9 @@ public class CommandsExecutor {
         return instance;
     }
 
-    // ÆÕÍ¨Ö¸Áî
+    // æ™®é€šæŒ‡ä»¤
     private static final char USER_HEADING = '@';
-    // GMÖ¸Áî
+    // GMæŒ‡ä»¤
     private static final char GM_HEADING = '!';
 
     public static boolean isCommand(MapleClient client, String content) {
@@ -92,10 +92,10 @@ public class CommandsExecutor {
     }
 
     /**
-     * ´¦ÀíÖ¸Áî
+     * å¤„ç†æŒ‡ä»¤
      *
-     * @param client  ¿Í»§¶Ë¶ÔÏó
-     * @param message Ö¸ÁîÄÚÈİ
+     * @param client  å®¢æˆ·ç«¯å¯¹è±¡
+     * @param message æŒ‡ä»¤å†…å®¹
      */
     public void handle(MapleClient client, String message) {
         if (client.tryacquireClient()) {
@@ -105,13 +105,13 @@ public class CommandsExecutor {
                 client.releaseClient();
             }
         } else {
-            client.getPlayer().dropMessage(5, "ÇëÉÔºóÔÙÊÔ£¬ÉÏÒ»ÌõÖ¸ÁîÕıÔÚÖ´ĞĞÖĞ¡£¡£¡£");
+            client.getPlayer().dropMessage(5, "è¯·ç¨åå†è¯•ï¼Œä¸Šä¸€æ¡æŒ‡ä»¤æ­£åœ¨æ‰§è¡Œä¸­ã€‚ã€‚ã€‚");
         }
     }
 
     private void handleInternal(MapleClient client, String message) {
         if (client.getPlayer().getMapId() == 300000012) {
-            client.getPlayer().yellowMessage("¼àÓüÀï²»ÔÊĞíÊ¹ÓÃÖ¸Áî");
+            client.getPlayer().yellowMessage("ç›‘ç‹±é‡Œä¸å…è®¸ä½¿ç”¨æŒ‡ä»¤");
             return;
         }
         final String splitRegex = " ";
@@ -121,18 +121,18 @@ public class CommandsExecutor {
         }
 
         client.getPlayer().setLastCommandMessage(splitedMessage[1]);    // thanks Tochi & Nulliphite for noticing string messages being marshalled lowercase
-        final String commandName = splitedMessage[0].toLowerCase();//Ö¸ÁîÃû³Æ
+        final String commandName = splitedMessage[0].toLowerCase();//æŒ‡ä»¤åç§°
         final String[] lowercaseParams = splitedMessage[1].toLowerCase().split(splitRegex);
 
-        final Command command = registeredCommands.get(commandName);//¸ù¾İÃû×Ö»ñÈ¡Ö¸Áî
+        final Command command = registeredCommands.get(commandName);//æ ¹æ®åå­—è·å–æŒ‡ä»¤
         if (command == null) {
-            client.getPlayer().yellowMessage("Ö¸Áî '" + commandName + "' ÎŞĞ§£¡ÊäÈë @commands ²é¿´¿ÉÓÃµÄÖ¸Áî¡£");
+            client.getPlayer().yellowMessage("æŒ‡ä»¤ '" + commandName + "' æ— æ•ˆï¼è¾“å…¥ @commands æŸ¥çœ‹å¯ç”¨çš„æŒ‡ä»¤ã€‚");
             return;
         }
         if (client.getPlayer().gmLevel() < command.getRank()) {
             System.out.println("play gmLevel: " + client.getPlayer().gmLevel());
             System.out.println("command getRank: " + command.getRank());
-            client.getPlayer().yellowMessage("ÄãÃ»ÓĞÈ¨ÏŞÊ¹ÓÃÕâ¸öÖ¸Áî");
+            client.getPlayer().yellowMessage("ä½ æ²¡æœ‰æƒé™ä½¿ç”¨è¿™ä¸ªæŒ‡ä»¤");
             return;
         }
         String[] params;
@@ -142,7 +142,7 @@ public class CommandsExecutor {
             params = new String[]{};
         }
 
-        command.execute(client, params);//Ö´ĞĞÖ¸Áî,³éÏó·½·¨(½Ó¿Ú)£¬¸ù¾İ²»Í¬ÊµÀıÖ´ĞĞ²»Í¬Àà·½·¨
+        command.execute(client, params);//æ‰§è¡ŒæŒ‡ä»¤,æŠ½è±¡æ–¹æ³•(æ¥å£)ï¼Œæ ¹æ®ä¸åŒå®ä¾‹æ‰§è¡Œä¸åŒç±»æ–¹æ³•
         writeLog(client, message);
     }
 
@@ -181,7 +181,7 @@ public class CommandsExecutor {
 
     private void addCommand(String syntax, int rank, Class<? extends Command> commandClass) {
         if (registeredCommands.containsKey(syntax.toLowerCase())) {
-            System.out.println("×¢²áÖ¸Áî: " + syntax + " Ê§°Ü£¬¸ÃÖ¸ÁîÒÑ´æÔÚ¡£");
+            System.out.println("æ³¨å†ŒæŒ‡ä»¤: " + syntax + " å¤±è´¥ï¼Œè¯¥æŒ‡ä»¤å·²å­˜åœ¨ã€‚");
             return;
         }
 
@@ -198,13 +198,13 @@ public class CommandsExecutor {
     }
 
     private void registerCommands() {
-        // Ô¤ÖÆlevel0-level6µÄcommandsNameDesc
+        // é¢„åˆ¶level0-level6çš„commandsNameDesc
         for (int i = 0; i <= 6; i++) {
             commandsNameDesc.add(new Pair<>(new ArrayList<>(), new ArrayList<>()));
         }
         List<GmCommand> gmCommands = CommandResolver.getInstance().getgmCommandList();
         if (NapComUtils.isEmpty(gmCommands)) {
-            System.out.println("GMÖ¸Áî±íÊı¾İÎª¿Õ");
+            System.out.println("GMæŒ‡ä»¤è¡¨æ•°æ®ä¸ºç©º");
             return;
         }
 
@@ -214,19 +214,19 @@ public class CommandsExecutor {
             }
             Class<? extends Command> commandClass = gmCommand.getCommandClass();
             if (commandClass == null) {
-                System.out.println("GMÖ¸Áî±íÊı¾İ´íÎó: " + gmCommand.getCommand() + " Ö¸ÁîÀàÎª¿Õ");
+                System.out.println("GMæŒ‡ä»¤è¡¨æ•°æ®é”™è¯¯: " + gmCommand.getCommand() + " æŒ‡ä»¤ç±»ä¸ºç©º");
                 continue;
             }
             Command command;
             try {
                 command = commandClass.newInstance();
             } catch (Exception e) {
-                System.out.println("GMÖ¸Áî±íÊı¾İ´íÎó: " + gmCommand.getCommand() + " Ö¸ÁîÀàÎŞ·¨ÊµÀı»¯");
+                System.out.println("GMæŒ‡ä»¤è¡¨æ•°æ®é”™è¯¯: " + gmCommand.getCommand() + " æŒ‡ä»¤ç±»æ— æ³•å®ä¾‹åŒ–");
                 continue;
             }
             String commandName = gmCommand.getCommand().toLowerCase();
             if (registeredCommands.containsKey(commandName)) {
-                System.out.println("×¢²áÖ¸Áî: " + gmCommand.getCommand() + " Ê§°Ü£¬¸ÃÖ¸ÁîÒÑ´æÔÚ¡£");
+                System.out.println("æ³¨å†ŒæŒ‡ä»¤: " + gmCommand.getCommand() + " å¤±è´¥ï¼Œè¯¥æŒ‡ä»¤å·²å­˜åœ¨ã€‚");
                 continue;
             }
             int level = Optional.ofNullable(gmCommand.getGmLevel()).orElse(gmCommand.getGmLevelPrimitive());
@@ -253,14 +253,14 @@ public class CommandsExecutor {
         for (GmCommand gmCommand : gmCommands) {
             Class<? extends Command> commandClass = gmCommand.getCommandClass();
             if (commandClass == null) {
-                System.out.println("GMÖ¸Áî±íÊı¾İ´íÎó: " + gmCommand.getCommand() + " Ö¸ÁîÀàÎª¿Õ");
+                System.out.println("GMæŒ‡ä»¤è¡¨æ•°æ®é”™è¯¯: " + gmCommand.getCommand() + " æŒ‡ä»¤ç±»ä¸ºç©º");
                 continue;
             }
             Command command;
             try {
                 command = commandClass.newInstance();
             } catch (Exception e) {
-                System.out.println("GMÖ¸Áî±íÊı¾İ´íÎó: " + gmCommand.getCommand() + " Ö¸ÁîÀàÎŞ·¨ÊµÀı»¯");
+                System.out.println("GMæŒ‡ä»¤è¡¨æ•°æ®é”™è¯¯: " + gmCommand.getCommand() + " æŒ‡ä»¤ç±»æ— æ³•å®ä¾‹åŒ–");
                 continue;
             }
             String commandName = gmCommand.getCommand().toLowerCase();
@@ -508,6 +508,7 @@ public class CommandsExecutor {
     }
 
     private void registerLv7Commands() {
+        //  /scripts/npc/commands.js
         levelCommandsCursor = new Pair<>(new ArrayList<>(), new ArrayList<>());
 
         addCommand("summonMonster", 7, SummonMonsterCommand.class);
