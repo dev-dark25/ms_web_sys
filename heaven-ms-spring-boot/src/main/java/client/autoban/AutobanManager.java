@@ -197,4 +197,12 @@ public class AutobanManager {
             this.timestampCounter[type] = 0;
         }
     }
+
+    public Map getPoints() {
+        return points;
+    }
+
+    public Map getLastTime() {
+        return lastTime;
+    }
 }
