@@ -2,12 +2,14 @@ package com.heavenMS.controller;
 
 import client.MapleCharacter;
 import client.MapleJob;
+import client.autoban.AutobanFactory;
 import cn.nap.utils.common.NapComUtils;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import constants.inventory.ItemConstants;
 import net.server.Server;
 import net.server.channel.Channel;
+import net.server.world.World;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -108,7 +110,6 @@ public class HeavenMSController {
         }
         int count = 0;
         List<Map> characters = new ArrayList();
-        characters = new ArrayList();
         for (Channel channel : Server.getInstance().getAllChannels()) {
             for (MapleCharacter character : channel.getPlayerStorage().getAllCharacters()) {
                 if (NapComUtils.isEmpty(req.get("parameter"))) {
@@ -190,6 +191,56 @@ public class HeavenMSController {
         }
 
         map.put("code", "200");
+        return map;
+    }
+
+    @RequestMapping(value = "/getRealtimeLoggedCount", method = RequestMethod.POST)
+    public Map getRealtimeLoggedCount() {
+        System.out.println("getRealtimeLoggedCount");
+        int count = 0;
+        Map<String, Object> map = new HashMap<>();
+        for (World world : Server.getInstance().getWorlds()) {
+            System.out.println("world id: " + world.getId());
+            List<Integer> list = new ArrayList<>();
+            for (Channel channel : world.getChannels()) {
+                int size = channel.getPlayerStorage().getSize();
+                System.out.println("channel id: " + channel.getId() + ", player count: " + size);
+                list.add(size);
+                count += size;
+            }
+            map.put("list" + world.getId(), list);
+        }
+        map.put("code", "200");
+        map.put("loggedCount", count);
+        return map;
+    }
+
+    @RequestMapping(value = "/getWarnList", method = RequestMethod.POST)
+    public Map getWarnList() {
+        System.out.println("getWarnList");
+        List<Map> list = new ArrayList<>();
+        for (Channel channel : Server.getInstance().getAllChannels()) {
+            for (MapleCharacter character : channel.getPlayerStorage().getAllCharacters()) {
+                System.out.println("character name: " + character.getName());
+                Map<String, Object> autoban = new HashMap<>();
+                autoban.put("accountId", character.getAccountID());
+                autoban.put("characterId", character.getId());
+                autoban.put("characterName", character.getName());
+                Map<AutobanFactory, Integer> autobanMap = character.getAutobanManager().getPoints();
+                Map<AutobanFactory, Long> lastTimeMap = character.getAutobanManager().getLastTime();
+                System.out.println("autobanManager autobanMap: " + autobanMap);
+                System.out.println("autobanManager lastTimeMap: " + lastTimeMap);
+                for (Map.Entry<AutobanFactory, Integer> entry : autobanMap.entrySet()) {
+                    autoban.put("type", entry.getKey().name());
+                    autoban.put("count", entry.getValue());
+                    autoban.put("lastTime", lastTimeMap.get(entry.getKey()));
+                    list.add(autoban);
+                }
+            }
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "200");
+        map.put("list", list);
         return map;
     }
 
