@@ -34,9 +34,25 @@ export function getMenuInfo() {
 }
 
 // Maple Story api
-export function getMSAccounts() {
+export function getMSAccounts(param: object) {
   return service({
     url: '/ms/getAccounts',
+    method: 'post',
+    data: param,
+  })
+}
+
+export function updateMSAccount(param: object) {
+  return service({
+    url: '/ms/updateAccount',
+    method: 'post',
+    data: param,
+  })
+}
+
+export function getMSWarnList() {
+  return service({
+    url: '/ms/getWarnList',
     method: 'post',
     // data: param,
   })
@@ -61,6 +77,14 @@ export function getMSSkills(param: object) {
 export function getMSRealtimeLoggedCount() {
   return service({
     url: '/ms/getRealtimeLoggedCount',
+    method: 'post',
+    // data: param,
+  })
+}
+
+export function getMSRecords(param: object) {
+  return service({
+    url: '/ms/getRecords',
     method: 'post',
     // data: param,
   })
