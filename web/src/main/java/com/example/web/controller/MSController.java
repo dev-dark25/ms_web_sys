@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
+//@CrossOrigin  // 跨域配置，nginx和spring boot只需配其中之一
 @RequestMapping("/api")
 @RestController
 public class MSController {
@@ -46,6 +47,7 @@ public class MSController {
         Map map = new HashMap();
         map.put("1", 1);
         ResponseEntity<String> re = restTemplate.postForEntity("http://localhost:8080/heaven-ms/init", map, String.class);
+//        ResponseEntity<String> re = restTemplate.postForEntity("http://192.168.172.1:8080/heaven-ms/init", map, String.class);
         System.out.println(re.getBody());
 
 //        String body = restTemplate.postForObject("localhost:8080/heaven-ms/init", map, String.class);
@@ -62,6 +64,7 @@ public class MSController {
 //        System.out.println(re.getBody());
 
         String body = restTemplate.getForObject("http://localhost:8080/heaven-ms/shutdown", String.class);
+//        String body = restTemplate.getForObject("http://192.168.172.1:8080/heaven-ms/shutdown", String.class);
         System.out.println(body);
     }
 
@@ -70,6 +73,7 @@ public class MSController {
         // 调用nacos服务    TODO
 
         String body = restTemplate.getForObject("http://localhost:8080/heaven-ms/restart", String.class);
+//        String body = restTemplate.getForObject("http://192.168.172.1:8080/heaven-ms/restart", String.class);
         System.out.println(body);
     }
 
@@ -78,6 +82,7 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/getConfig", req, Map.class);
+//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/getConfig", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/updataConfig", method = RequestMethod.POST)
@@ -85,6 +90,7 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/updataConfig", req, Map.class);
+//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/updataConfig", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/getCommand", method = RequestMethod.POST)
@@ -92,6 +98,7 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/getCommand", req, Map.class);
+//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/getCommand", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/updataCommand", method = RequestMethod.POST)
@@ -99,6 +106,7 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/updataCommand", req, Map.class);
+//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/updataCommand", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/getPlayer", method = RequestMethod.POST)
@@ -106,6 +114,7 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/getPlayer", req, Map.class);
+//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/getPlayer", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/updataPlayer", method = RequestMethod.POST)
@@ -113,27 +122,43 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/updataPlayer", req, Map.class);
+//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/updataPlayer", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/getAccounts", method = RequestMethod.POST)
-    public Object getAccounts() {
-        Map<String, Object> map = new HashMap<>();
-        List<Object> list = accountsMapper.selectAll();
-        List<Object> list1 = accountsMapper.selectById(3);
+    public Object getAccounts(@RequestBody Map req) {
+        List<Object> list = accountsMapper.selectAll(req);
+//        List<Object> list1 = accountsMapper.selectById(3);
         int loggedCount = accountsMapper.selectCountByLoggedin();
+        Map<String, Object> map = new HashMap<>();
         map.put("code", "200");
         map.put("message", "222");
         map.put("list", list);
         map.put("loggedCount", loggedCount);
-        map.put("list1", list1);
+//        map.put("list1", list1);
         return map;
     }
 
+    @RequestMapping(value = "/ms/updateAccount", method = RequestMethod.POST)
+    public Object updateAccount(@RequestBody Map req) {
+        accountsMapper.update(req);
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "200");
+        map.put("message", "222");
+        return map;
+    }
+
+    @RequestMapping(value = "/ms/getWarnList", method = RequestMethod.POST)
+    public Object getWarnList() {
+
+        return restTemplate.postForObject("http://localhost:8080/heaven-ms/getWarnList", null, Map.class);
+    }
+
     @RequestMapping(value = "/ms/getCharacters", method = RequestMethod.POST)
-    public Map getCharacters(@RequestBody Map requestParam) {
-        logger.info("login: {}", requestParam);
-        int currentPage = (int) requestParam.get("currentPage");
-        int pageSize = (int) requestParam.get("pageSize");
+    public Map getCharacters(@RequestBody Map req) {
+        logger.info("login: {}", req);
+        int currentPage = (int) req.get("currentPage");
+        int pageSize = (int) req.get("pageSize");
         Map<String, Object> param = new HashMap<>();
         param.put("currentIndex", (currentPage - 1) * pageSize);
         param.put("pageSize", pageSize);
@@ -149,10 +174,10 @@ public class MSController {
     }
 
     @RequestMapping(value = "/ms/getSkills", method = RequestMethod.POST)
-    public Map getSkills(@RequestBody Map requestParam) {
-        int characterId = (int) requestParam.get("characterId");
-        int currentPage = (int) requestParam.get("currentPage");
-        int pageSize = (int) requestParam.get("pageSize");
+    public Map getSkills(@RequestBody Map req) {
+        int characterId = (int) req.get("characterId");
+        int currentPage = (int) req.get("currentPage");
+        int pageSize = (int) req.get("pageSize");
         Map<String, Object> param = new HashMap<>();
         param.put("characterId", characterId);
         param.put("currentIndex", (currentPage - 1) * pageSize);
@@ -169,27 +194,27 @@ public class MSController {
 
     @RequestMapping(value = "/ms/getRealtimeLoggedCount", method = RequestMethod.POST)
     public Map getRealtimeLoggedCount() {
-        Map<String, Object> param = new HashMap<>();
-        int total = skillsMapper.selectCount(param);
-        Map<String, Object> map = new HashMap<>();
-        map.put("code", "200");
-        map.put("message", "222");
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("code", "200");
+//        map.put("message", "222");
 
         // 获取ThreadLocalRandom实例
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        List<Integer> list1 = new ArrayList<Integer>();
-        List<Integer> list2 = new ArrayList<Integer>();
-        IntStream.range(1, 6).forEach(i -> {
-            // 生成一个随机整数，在[0, Integer.MAX_VALUE]范围内
-//            int randomInt = random.nextInt();
-            int randomInt = random.nextInt(10, 101);
-            // 生成一个随机整数，在指定范围内，例如[1, 50]
-            int randomIntRange = random.nextInt(1, 51);
-            list1.add(randomInt);
-            list2.add(randomIntRange);
-        });
-        map.put("list1", list1);
-        map.put("list2", list2);
-        return map;
+//        ThreadLocalRandom random = ThreadLocalRandom.current();
+//        List<Integer> list1 = new ArrayList<Integer>();
+//        List<Integer> list2 = new ArrayList<Integer>();
+//        IntStream.range(1, 6).forEach(i -> {
+//            // 生成一个随机整数，在[0, Integer.MAX_VALUE]范围内
+////            int randomInt = random.nextInt();
+//            int randomInt = random.nextInt(10, 101);
+//            // 生成一个随机整数，在指定范围内，例如[1, 50]
+//            int randomIntRange = random.nextInt(1, 51);
+//            list1.add(randomInt);
+//            list2.add(randomIntRange);
+//        });
+//        map.put("list1", list1);
+//        map.put("list2", list2);
+//        return map;
+
+        return restTemplate.postForObject("http://localhost:8080/heaven-ms/getRealtimeLoggedCount", null, Map.class);
     }
 }
