@@ -5,8 +5,11 @@
 <!--namespace指向对应的mapper-->
 <mapper namespace="com.example.web.mapper.secondary.AccountsMapper">
 
-    <select id="selectAll" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    <select id="selectAll" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         select * from accounts
+        <where>
+            <if test="banned != null and banned != ''">banned = #{banned}</if>
+        </where>
     </select>
 
     <select id="selectCountByLoggedin" resultType="java.lang.Integer">
@@ -16,4 +19,8 @@
     <select id="selectById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
         select * from accounts where id = #{id}
     </select>
+
+    <update id="update" parameterType="java.util.HashMap">
+        update accounts set banned = #{banned}, banreason = #{banreason} where id = #{id}
+    </update>
 </mapper>
