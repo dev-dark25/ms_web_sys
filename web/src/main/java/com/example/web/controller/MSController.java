@@ -46,35 +46,39 @@ public class MSController {
 
         Map map = new HashMap();
         map.put("1", 1);
-        ResponseEntity<String> re = restTemplate.postForEntity("http://localhost:8080/heaven-ms/init", map, String.class);
-//        ResponseEntity<String> re = restTemplate.postForEntity("http://192.168.172.1:8080/heaven-ms/init", map, String.class);
-        System.out.println(re.getBody());
+//        ResponseEntity<String> re = restTemplate.postForEntity("http://localhost:8080/heaven-ms/init", map, String.class);
+//        System.out.println(re.getBody());
 
 //        String body = restTemplate.postForObject("localhost:8080/heaven-ms/init", map, String.class);
 //        System.out.println(body);
+
+        Runnable runnable = () -> restTemplate.postForEntity("http://localhost:8080/heaven-ms/init", map, String.class);
+        runnable.run();
     }
 
     @RequestMapping(value = "/ms/stop", method = RequestMethod.POST)
     public void stop() {
         // 调用nacos服务    TODO
 
-//        restTemplate.getForObject("http://localhost:8080/heaven-ms/shutdown", String.class);
-
 //        ResponseEntity<String> re = restTemplate.getForEntity("localhost:8080/heaven-ms/shutdown", String.class);
 //        System.out.println(re.getBody());
 
-        String body = restTemplate.getForObject("http://localhost:8080/heaven-ms/shutdown", String.class);
-//        String body = restTemplate.getForObject("http://192.168.172.1:8080/heaven-ms/shutdown", String.class);
-        System.out.println(body);
+//        String body = restTemplate.getForObject("http://localhost:8080/heaven-ms/shutdown", String.class);
+//        System.out.println(body);
+
+        Runnable runnable = () -> restTemplate.getForObject("http://localhost:8080/heaven-ms/shutdown", String.class);
+        runnable.run();
     }
 
     @RequestMapping(value = "/ms/restart", method = RequestMethod.POST)
     public void restart() {
         // 调用nacos服务    TODO
 
-        String body = restTemplate.getForObject("http://localhost:8080/heaven-ms/restart", String.class);
-//        String body = restTemplate.getForObject("http://192.168.172.1:8080/heaven-ms/restart", String.class);
-        System.out.println(body);
+//        String body = restTemplate.getForObject("http://localhost:8080/heaven-ms/restart", String.class);
+//        System.out.println(body);
+
+        Runnable runnable = () -> restTemplate.getForObject("http://localhost:8080/heaven-ms/restart", String.class);
+        runnable.run();
     }
 
     @RequestMapping(value = "/ms/getConfig", method = RequestMethod.POST)
@@ -82,7 +86,6 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/getConfig", req, Map.class);
-//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/getConfig", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/updataConfig", method = RequestMethod.POST)
@@ -90,7 +93,6 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/updataConfig", req, Map.class);
-//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/updataConfig", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/getCommand", method = RequestMethod.POST)
@@ -98,7 +100,6 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/getCommand", req, Map.class);
-//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/getCommand", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/updataCommand", method = RequestMethod.POST)
@@ -106,7 +107,6 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/updataCommand", req, Map.class);
-//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/updataCommand", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/getPlayer", method = RequestMethod.POST)
@@ -114,7 +114,6 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/getPlayer", req, Map.class);
-//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/getPlayer", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/updataPlayer", method = RequestMethod.POST)
@@ -122,7 +121,6 @@ public class MSController {
         // 调用nacos服务    TODO
 
         return restTemplate.postForObject("http://localhost:8080/heaven-ms/updataPlayer", req, Map.class);
-//        return restTemplate.postForObject("http://192.168.172.1:8080/heaven-ms/updataPlayer", req, Map.class);
     }
 
     @RequestMapping(value = "/ms/getAccounts", method = RequestMethod.POST)
